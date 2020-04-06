@@ -1,9 +1,8 @@
 ---
 title: "Reproducible Research Project 1"
-author: "Geetha Sarayu"
-output:
-  html_document
-    
+author: "Sarayu"
+date: "4/6/2020"
+output: html_document
 ---
 
 
