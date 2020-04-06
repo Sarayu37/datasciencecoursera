@@ -2,10 +2,7 @@
 title: "Reproducible Research Project 1"
 author: "Geetha Sarayu"
 output:
-  html_document:
-    df_print: paged
-  md_document:
-    variant: markdown_github
+
 ---
 
 github repo for rest of specialization: [Data Science Coursera](https://github.com/mGalarnyk/datasciencecoursera)
