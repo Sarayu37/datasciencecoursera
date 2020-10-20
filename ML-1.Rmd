@@ -1,0 +1,78 @@
+---
+title: "Machine Learning Proj"
+author: "Sarayu"
+date: "10/20/2020"
+output: html_document
+---
+
+```{r,echo=FALSE}
+knitr::opts_chunk$set(error= TRUE)
+```
+
+```{r}
+library(caret)
+library(rpart)
+library(rpart.plot)
+library(RColorBrewer)
+library(RGtk2)
+library(rattle)
+library(randomForest)
+library(gbm)
+```
+
+```{r}
+S_url <- "http://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"
+G_url  <- "http://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"
+s <- read.csv(url(S_url))
+g <- read.csv(url(G_url))
+dim(s)
+dim(g)
+```
+
+```{r}
+danm <- nearZeroVar(s)
+ss <- s[,-danm]
+gg <- g[,-danm]
+dim(ss)
+dim(gg)
+```
+
+```{r}
+hh <- sapply(ss, function(x) mean(is.na(x))) > 0.95
+ss <- ss[,hh == FALSE]
+gg <- gg[,hh == FALSE]
+dim(ss)
+dim(gg)
+```
+
+```{r}
+ss <- ss[,8:59]
+gg <- gg[,8:59]
+dim(ss)
+dim(gg)
+```
+
+```{r}
+gon <- createDataPartition(ss$classe, p=0.6, list=FALSE)
+y <- ss[gon,]
+z <- ss[-gon,]
+dim(y)
+dim(z)
+```
+
+```{r}
+wo <- train(classe ~ ., data = y, method="rpart")
+fh <- predict(wo, z)
+confusionMatrix(fh, z$classe)
+rpart.plot(wo$finalModel, roundint=FALSE)
+```
+
+```{r}
+vk <- train(classe ~ ., data = y, method = "rf", ntree = 100)
+mom <- predict(vk, z)
+qwe <- confusionMatrix(mom, z$classe)
+qwe
+plot(qwe$table, col = qwe$byClass, 
+     main = paste("Random Forest - Accuracy Level =",
+                  round(qwe$overall['Accuracy'], 4)))
+```
